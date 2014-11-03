@@ -655,10 +655,22 @@ namespace mongo {
         }
 
         if ( op == BSONObj::opMOD ) {
-            if ( ! l.isNumber() )
-                return false;
 
-            return l.numberLong() % bm._mod == bm._modm;
+            // IMF hack so we can query natively only customers / events that are from one specific shard
+            if ( l.type() == BSONType::jstOID || l.type() == BSONType::String ) {
+                std::string value = ( l.type() == BSONType::jstOID ) ? l.OID().str() : l.String();
+                int hash = 0;
+                for ( std::string::iterator it = value.begin(); it != value.end(); ++it ) {
+                    hash += *it;
+                    hash %= bm._mod;
+                }
+                return hash == bm._modm;
+            }
+
+            if ( l.isNumber() )
+                return l.numberLong() % bm._mod == bm._modm;
+
+            return false;
         }
 
         if ( op == BSONObj::opTYPE ) {

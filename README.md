@@ -1,6 +1,42 @@
 TokuMX
 ======
 
+Marian's edit
+-------------
+
+How to build:
+
+git clone https://github.com/7segments/mongo.git
+git clone https://github.com/Tokutek/ft-index
+git clone https://github.com/Tokutek/jemalloc
+git clone https://github.com/Tokutek/backup-community
+
+(cd mongo; git checkout imf_hack)
+(cd ft-index; git checkout tokumx-2.0.0)
+(cd jemalloc; git checkout tokumx-2.0.0)
+(cd backup-community; git checkout tokumx-2.0.0)
+
+ln -snf ../../jemalloc ft-index/third_party/jemalloc
+cd mongo
+ln -snf ../../../ft-index src/third_party/ft-index
+ln -snf ../../../backup-community/backup src/third_party/backup
+mkdir build
+cd build
+
+cmake -D CMAKE_BUILD_TYPE=Release -D TOKU_DEBUG_PARANOID=OFF -D USE_VALGRIND=OFF -D USE_BDB=OFF -D BUILD_TESTING=OFF -D TOKUMX_DISTNAME=2.0.0~imf~hack ..
+
+make -j4
+# or maybe make -j4 package
+
+
+# and then we can use
+use events_dev
+db.customers.find({_id: {$mod: [4, 1]}})
+
+
+Original
+--------
+
 TokuMX is a high-performance distribution of MongoDB, a document-oriented
 database with built-in sharding and replication, built on Tokutek's
 [Fractal Tree indexes][ft-index].

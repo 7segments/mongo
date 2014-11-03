@@ -657,8 +657,8 @@ namespace mongo {
         if ( op == BSONObj::opMOD ) {
 
             // IMF hack so we can query natively only customers / events that are from one specific shard
-            if ( l.type() == BSONType::jstOID || l.type() == BSONType::String ) {
-                std::string value = ( l.type() == BSONType::jstOID ) ? l.OID().str() : l.String();
+            if ( l.type() == jstOID || l.type() == String ) {
+                std::string value = ( l.type() == jstOID ) ? l.OID().str() : l.String();
                 int hash = 0;
                 for ( std::string::iterator it = value.begin(); it != value.end(); ++it ) {
                     hash += *it;

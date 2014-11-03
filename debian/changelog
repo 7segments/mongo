@@ -1,3 +1,9 @@
+tokumx (2.0.0~imf~hack) stable; urgency=low
+
+  * see http://github.com/Tokutek/mongo/releases/tokumx-2.0.0
+
+ -- Marian Galik <marian.galik@7segments.com>  Mon, 3 Nov 2014 11:42:48 +0000
+
 tokumx (2.0.0) unstable; urgency=low
 
   * see http://github.com/Tokutek/mongo/releases/tokumx-2.0.0
